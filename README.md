@@ -1,2 +1,2 @@
 # Instant-Messenger
-WebTex proect
+WebTex project
