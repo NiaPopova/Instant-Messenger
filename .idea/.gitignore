@@ -12,3 +12,6 @@
 workspace.xml
 misc.xml
 modules.xml
+
+# Ignore Maven build directory
+target/
