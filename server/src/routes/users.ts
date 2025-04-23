@@ -1,5 +1,6 @@
 import * as express from 'express';
 import User from '../models/user';
+import user from '../models/user';
 
 const users = express.Router();
 
@@ -10,9 +11,11 @@ users.get('/', async (request: express.Request, response: express.Response) => {
 });
 
 users.post('/', async (request: express.Request, response: express.Response) => {
-    const { username } = request.body;
+    const { username } = request.params;
 
     const user = new User({username});
     await user.save();
     response.status(200).json(user); //check status code
 })
+
+export default users;
