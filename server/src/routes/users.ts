@@ -1,6 +1,5 @@
 import * as express from 'express';
 import User from '../models/user';
-import user from '../models/user';
 
 const users = express.Router();
 
