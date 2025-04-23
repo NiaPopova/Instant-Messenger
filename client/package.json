@@ -1,0 +1,22 @@
+{
+  "name": "instant-messenger",
+  "version": "1.0.0",
+  "description": "Instant messenger web app for exchainging messages in real time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiaPopova/Instant-Messenger.git"
+  },
+  "author": "Elena Karabeteva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NiaPopova/Instant-Messenger/issues"
+  },
+  "homepage": "https://github.com/NiaPopova/Instant-Messenger#readme",
+  "dependencies": {
+    "node": "^20.19.1"
+  }
+}
