@@ -16,7 +16,9 @@
     "url": "https://github.com/NiaPopova/Instant-Messenger/issues"
   },
   "homepage": "https://github.com/NiaPopova/Instant-Messenger#readme",
-  "dependencies": {
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
     "express": "^5.1.0",
     "typescript": "^5.8.3"
   }
