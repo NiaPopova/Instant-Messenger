@@ -1,6 +1,5 @@
 import * as express from 'express';
 import Message from '../models/message';
-import { REPL_MODE_STRICT } from 'repl';
 
 const messages = express.Router();
 
