@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NiaPopova/Instant-Messenger#readme",
   "dependencies": {
+    "express": "^5.1.0",
     "typescript": "^5.8.3"
   }
 }
