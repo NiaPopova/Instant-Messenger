@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ES5",
+            "ES6"
+        ],
+        "target": "ES5", //after starting -> javascript with ES5
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "outDir": "./build", //location of files after build
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true
+    }
+}
