@@ -1,0 +1,13 @@
+Messenger App Activities:
+
+-Register
+-Log in/out
+-Send/Receive
+-See whose online
+-Option for pics and videos 
+-Repo for media
+
+Explain sockety working
+
+Options on Spring?
+-class instead of id

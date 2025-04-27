@@ -1,0 +1,58 @@
+[
+  {
+    "username": "papa",
+    "password": "12345"
+  },
+  {
+    "username": "tatata",
+    "password": "12345"
+  },
+  {
+    "username": "hahahah",
+    "password": "12345"
+  },
+  {
+    "username": "Kaloyan ",
+    "password": "12345"
+  },
+  {
+    "username": "Petar",
+    "password": "123456"
+  },
+  {
+    "id": "fa4137be-edec-4f0b-8e4a-c588193c13f4",
+    "username": "Koooo",
+    "password": "222222",
+    "email": "sssss@ssss",
+    "name": "sssss",
+    "lastActivity": "2025-04-27T10:54:02.940Z",
+    "profilePicture": "uploads/default.png"
+  },
+  {
+    "id": "3e71e07f-419a-4fe5-9375-b1144b8bebdd",
+    "username": "sdadad",
+    "password": "sadadasd",
+    "email": "asdasdas@sss",
+    "name": "ssss",
+    "lastActivity": "2025-04-27T11:09:55.474Z",
+    "profilePicture": "uploads/default.png"
+  },
+  {
+    "id": "4fe015e2-9e26-4e46-9ccc-413ef713ddb3",
+    "username": "sdadadss",
+    "password": "sadadasd",
+    "email": "asdasdas@sss",
+    "name": "ssss",
+    "lastActivity": "2025-04-27T11:09:58.847Z",
+    "profilePicture": "uploads/default.png"
+  },
+  {
+    "id": "bb8e8946-c257-4371-9e1b-bd1e88a11189",
+    "username": "asadasdsadsad",
+    "password": "asdasdsda",
+    "email": "asdsadsa@ddd",
+    "name": "saddest",
+    "lastActivity": "2025-04-27T11:13:34.984Z",
+    "profilePicture": "uploads/default.png"
+  }
+]
