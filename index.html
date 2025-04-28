@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>Търсене в съобщения</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      background: linear-gradient(120deg, #e0f7fa, #ffffff);
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+      color: #00796b;
+    }
+    .search-box {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    input, select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #81c784;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background-color: #66bb6a;
+      transform: scale(1.05);
+    }
+    .results {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .message {
+      background: white;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-left: 5px solid #007bff;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      animation: fadeIn 0.4s ease forwards;
+      opacity: 0;
+    }
+    .user {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #00796b;
+    }
+    .text {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .timestamp {
+      font-size: 12px;
+      color: gray;
+    }
+    .highlight {
+      background-color: #ffeb3b;
+      padding: 2px 4px;
+      border-radius: 3px;
+      color: black;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Търсене в съобщения</h1>
+  <div class="search-box">
+    <input type="text" id="query" placeholder="Въведи дума за търсене...">
+    <select id="channel">
+      <option value="all">Всички канали</option>
+      <option value="general">#general</option>
+      <option value="dev">#dev</option>
+      <option value="random">#random</option>
+    </select>
+    <button id="searchBtn">🔍 Търси</button>
+  </div>
+  <div class="results" id="results"></div>
+
+  <script>
+    const searchBtn = document.getElementById('searchBtn');
+    const resultsDiv = document.getElementById('results');
+
+    searchBtn.addEventListener('click', async () => {
+      const query = document.getElementById('query').value.trim();
+      const channel = document.getElementById('channel').value;
+
+      const response = await fetch(`/search?query=${encodeURIComponent(query)}&channel=${channel}`);
+      const messages = await response.json();
+
+      resultsDiv.innerHTML = '';
+
+      if (messages.length === 0) {
+        resultsDiv.innerHTML = '<p style="text-align:center; font-size:18px; color:gray;">Няма намерени съобщения.</p>';
+        return;
+      }
+
+      messages.forEach(msg => {
+        const messageEl = document.createElement('div');
+        messageEl.classList.add('message');
+
+        const userEl = document.createElement('div');
+        userEl.classList.add('user');
+        userEl.textContent = msg.user;
+
+        const textEl = document.createElement('div');
+        textEl.classList.add('text');
+        if (query) {
+          const regex = new RegExp(`(${query})`, 'gi');
+          textEl.innerHTML = msg.message.replace(regex, '<span class="highlight">$1</span>');
+        } else {
+          textEl.textContent = msg.message;
+        }
+
+        const timeEl = document.createElement('div');
+        timeEl.classList.add('timestamp');
+        timeEl.textContent = msg.timestamp;
+
+        messageEl.appendChild(userEl);
+        messageEl.appendChild(textEl);
+        messageEl.appendChild(timeEl);
+        resultsDiv.appendChild(messageEl);
+      });
+    });
+  </script>
+</body>
+</html>
