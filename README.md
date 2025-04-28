@@ -18,5 +18,3 @@ This project is an **Instant Messenger Search Application** built using **Node.j
 - **JavaScript (ES6)**: For dynamic content loading and search functionality.
 - **JSON**: Used to store and retrieve message data.
 
-## Project Structure
-
