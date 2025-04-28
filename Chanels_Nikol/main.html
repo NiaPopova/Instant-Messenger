@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Канали | ChatApp</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <div class="logo">ChatApp</div>
+      <ul class="channel-list">
+        <li data-channel="general" class="active">Общо</li>
+        <li data-channel="dev">Разработка</li>
+        <li data-channel="random">Случайни</li>
+      </ul>
+    </div>
+
+    <div class="chat">
+      <header class="chat-header">
+        <h2 class="channel-title">Общо</h2>
+        <div class="chat-header-content">
+          <button class="settings-btn">⚙️ Настройки</button>
+        </div>
+      </header>
+
+      <section class="chat-messages">
+      </section>
+
+      <div class="chat-input">
+        <input type="text" class="message-input" placeholder="Напиши съобщение..." />
+        <button class="send-button">Изпрати</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-channel-name"># Канал</h3>
+        <button class="modal-edit-btn">✏️ Редактирай</button>
+      </div>
+      <ul class="user-list"></ul>
+      <button class="close-modal">Затвори</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
