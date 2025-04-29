@@ -2,7 +2,7 @@
   "name": "instant-messenger",
   "version": "1.0.0",
   "description": "Instant messenger web app for exchainging messages in real time",
-  "main": "index.js",
+  "main": "./auth",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
