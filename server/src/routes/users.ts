@@ -1,20 +1,15 @@
 import * as express from 'express';
 import User from '../models/user';
 
-const users = express.Router();
+const users: express.Router = express.Router();
 
-// list
 users.get('/', async (request: express.Request, response: express.Response) => {
-    const usersInfo = await User.find();
-    response.status(200).json(usersInfo); //validation
+    try{
+        const usersInfo = await User.find();
+        response.status(200).json(usersInfo); 
+    } catch (error) {
+        response.status(500).json({ error: 'Error fetching users' });
+    }
 });
-
-users.post('/', async (request: express.Request, response: express.Response) => {
-    const { username } = request.params;
-
-    const user = new User({username});
-    await user.save();
-    response.status(200).json(user); //check status code
-})
 
 export default users;
