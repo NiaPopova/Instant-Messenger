@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat App</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script defer src="/socket.io/socket.io.js"></script>
+  <script defer type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="login-form">
+    <h3>Log in</h3>
+
+    <div class="input-box">
+      <label for="username">Username</label>
+      <input id="username" placeholder="Enter username" />
+    </div>
+
+    <div class="input-box">
+      <div class="password-title">
+        <label for="password">Password</label>
+        <a href="#">Forgot password?</a>
+      </div>
+      <input id="password" type="password" placeholder="Enter password" />
+    </div>
+    
+    <button type="submit" onclick="login()">Log In</button>
+
+    <p class="sign-up">Don't have an account? <a href="#">Sign up</a></p>
+  </div>
+  
+
+  <div class="chat-page" style="display: none;">
+    <div class="user-panel">
+      <h3>ChatApp</h3>
+      <div class="user-list"></div>
+
+      <div class="current-user"></div>
+    </div>
+    
+    <div class="chat-panel">
+      <div class="selected-user"></div> <!--add here header-->
+      <div class="message-wrapper"></div>
+      <div class="message-field">
+        <input class="message-input" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>  
+</body>
+</html>
+
