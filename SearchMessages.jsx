@@ -11,11 +11,13 @@ function SearchMessages() {
     setResults(messages);
   };
 
-  const highlightQuery = (text) => {
-    if (!query) return text;
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, '<span class="highlight">$1</span>');
-  };
+ const highlightQuery = (text) => {
+  if (!query) return text;
+  const regex = new RegExp(`(${query})`, 'gi');
+  return text.replace(regex, `<span style="background-color: #ffeb3b; padding: 2px 4px; border-radius: 3px; color: black;">$1</span>`);
+};
+
+
 
   return (
     <div style={{
