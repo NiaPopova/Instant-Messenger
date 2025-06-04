@@ -9,6 +9,7 @@ import path from 'path';
 import messageRoutes from './routes/messages';
 import userRoutes from './routes/users';
 import authRoutes from './routes/auth';
+import channelRoutes from './routes/channels';
 import { socketSetUp } from './socketio';
 
 dotenv.config();
@@ -65,6 +66,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('api/channel', channelRoutes);
 
 // Simple health-check endpoint
 app.get('/api/health', (_req: Request, res: Response) => {
