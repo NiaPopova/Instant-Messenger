@@ -1,6 +1,7 @@
 // src/components/ChatWindow.js
 import React, { useState, useRef, useEffect } from 'react';
 import { getInitials } from '../../../utils/getInitials';
+//import { socket } from '../../../socket';
 
 export default function ChatWindow({
     channelId,
