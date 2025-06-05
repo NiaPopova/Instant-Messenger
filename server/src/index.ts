@@ -66,7 +66,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('api/channel', channelRoutes);
+app.use('/api/channel', channelRoutes);
 
 // Simple health-check endpoint
 app.get('/api/health', (_req: Request, res: Response) => {

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginForm from "./components/login/LoginForm";
 import Chat from "./components/chat/Chat";
 import Profile from "./components/profile/Profile";
+import RegisterForm from "./components/registration/RegisterForm";
 
 function App() {
   // Функция, която проверява дали user е в localStorage
@@ -28,6 +29,7 @@ function App() {
           }
         />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/registration" element={<RegisterForm />} />
 
         {/* Всички други пътища прехвърляме към /login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
