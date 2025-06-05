@@ -2,8 +2,12 @@
 import React from 'react';
 import { getInitials } from '../../../utils/getInitials';
 
-export default function ChannelModal({ isOpen, channelLabel, users, onClose }) {
+export default function ChannelModal({ isOpen, channelLabel, users, allUsers, onClose }) {
     if (!isOpen) return null;
+    
+    const channelUsers = allUsers.filter(user => users?.includes(user._id))
+    console.log(channelUsers);
+    
     return (
         <div className="modal">
             <div className="modal-content">
@@ -12,15 +16,15 @@ export default function ChannelModal({ isOpen, channelLabel, users, onClose }) {
                     <button className="modal-edit-btn">✏️ Редактирай</button>
                 </div>
                 <ul className="user-list">
-                    {users.map((u, idx) => (
+                    {channelUsers.map((u, idx) => (
                         <li key={idx}>
                             <div className="avatar">
-                                {getInitials(u.firstName, u.lastName)}
+                                {getInitials(u.name)}
                             </div>
                             <div>
                                 <div>
                                     <strong>
-                                        {u.firstName} {u.lastName}
+                                        {u.name}
                                     </strong>
                                 </div>
                                 <div style={{ fontSize: '12px', color: 'gray' }}>

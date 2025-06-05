@@ -9,6 +9,7 @@ export default function ChatWindow({
     messages,
     onSendMessage,
     onOpenSettings,
+    users
 }) {
     const [inputValue, setInputValue] = useState('');
     const messagesEndRef = useRef(null);
@@ -44,21 +45,26 @@ export default function ChatWindow({
             </header>
 
             <section className="chat-messages">
-                {messages.map((msg, idx) => (
-                    <div className="message" key={idx}>
-                        <div className="avatar">
-                            {getInitials(msg.firstName, msg.lastName)}
-                        </div>
-                        <div className="content">
-                            <div className="name">
-                                {msg.firstName} {msg.lastName}{' '}
-                                <span className="username">(@{msg.username})</span>
+                {messages.map((msg, idx) => {
+                    const msgUser = users.find(u => u._id === msg.sender_id)
+
+                    return (
+                        <div className="message" key={idx}>
+                            <div className="avatar">
+                                {getInitials(msgUser.name)}
                             </div>
-                            <div className="text">{msg.text}</div>
-                            <div className="time">🕒 {msg.timeAgo}</div>
+                            <div className="content">
+                                <div className="name">
+                                    {msgUser.name}{' '}
+                                    <span className="username">(@{msgUser.username})</span>
+                                </div>
+                                <div className="text">{msg.content}</div>
+                                <div className="time">🕒 {msg.timestamp}</div>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    )
+                })}
+
                 <div ref={messagesEndRef} />
             </section>
 

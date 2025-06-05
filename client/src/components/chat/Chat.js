@@ -1,7 +1,6 @@
 // src/Chat.js
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-//import { io } from "socket.io-client";
 
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
@@ -18,7 +17,7 @@ function Chat() {
     // -----------------------------
     const storedUser = localStorage.getItem("user");
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const [currentUser, setCurrentUser] = useState(parsedUser?.username || "");
+    const [currentUser, setCurrentUser] = useState(parsedUser || null);
 
     // Ако няма валиден user, прехвърляме към /login
     useEffect(() => {
@@ -39,14 +38,8 @@ function Chat() {
     // -----------------------------
     // 3) PRIVATE CHAT-RELATED STATE
     // -----------------------------
-    // const [users, setUsers] = useState([]);
-    // const [selectedUser, setSelectedUser] = useState("");
-    // const [privateMessages, setPrivateMessages] = useState([]);
-
-    // -----------------------------
-    // 4) SOCKET.IO CLIENT
-    // -----------------------------
-    // const socketRef = useRef(null);
+    const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState({});
 
     // =====================================================
     // 5) След като компонентът “Chat” се монтира, и ако имаме currentUser:
@@ -71,11 +64,7 @@ function Chat() {
         // Когато анализът се демунтира, затваряме socket връзката
         return () => {
             socket.disconnect();
-            // if (socket.current) {
-            //     socket.current.disconnect();
-            // }
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     // =====================================
@@ -83,13 +72,15 @@ function Chat() {
     // =====================================
     const loadChannels = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/channels");
+            const res = await fetch("http://localhost:4002/api/channels");
             const channelsArr = await res.json(); // [{ id, label }, ...]
-            setChannels(channelsArr);
+            const publicChannels = channelsArr.filter(ch => ch.user_list.length > 2);
+
+            setChannels(publicChannels);
 
             // Ако няма избран канал, избираме първия
             if (!currentChannel && channelsArr.length > 0) {
-                setCurrentChannel(channelsArr[0].id);
+                setCurrentChannel(channelsArr[0]._id);
             }
         } catch (err) {
             console.error("Грешка при loadChannels:", err);
@@ -101,9 +92,9 @@ function Chat() {
     // =====================================
     const loadAllUsers = async () => {
         try {
-            const fetchedUsers = await fetch("http://localhost:3000/api/users");
+            const fetchedUsers = await fetch("http://localhost:4002/api/users");
             const usersArr = await fetchedUsers.json(); // [{ username }, ...]
-            const onlyUsernames = usersArr.map((u) => u.username);
+            const onlyUsernames = usersArr.map((u) => ({ username: u.username, name: u.name, _id: u._id }));
             setUsers(onlyUsernames);
         } catch (err) {
             console.error("Грешка при loadAllUsers:", err);
@@ -120,18 +111,19 @@ function Chat() {
                 setChannelUsers([]);
                 return;
             }
+
             try {
                 socket.emit('join-channel', { channelId: currentChannel });
                 // 1) GET съобщения
                 const resMsgs = await fetch(
-                    `http://localhost:3000/api/messages/${currentChannel.id}`
+                    `http://localhost:4002/api/messages/${currentChannel}`
                 );
                 const msgs = await resMsgs.json();
                 setChannelMessages(msgs);
 
                 // 2) GET участници в канала
                 const resUsers = await fetch(
-                    `http://localhost:3000/api/users/${currentChannel.id}`
+                    `http://localhost:4002/api/users/${currentChannel}`
                 );
                 const channelUsersArr = await resUsers.json(); // [{ firstName, lastName, username }, ...]
                 setChannelUsers(channelUsersArr);
@@ -144,29 +136,6 @@ function Chat() {
     }, [currentChannel]);
 
     // ======================================================
-    // 9) Всяка промяна на selectedUser → зареждаме private история
-    // ======================================================
-    // useEffect(() => {
-    //     const fetchPrivateMessages = async () => {
-    //         if (!selectedUser) {
-    //             setPrivateMessages([]);
-    //             return;
-    //         }
-    //         try {
-    //             const res = await fetch(
-    //                 `http://localhost:4002/messages/${currentUser}/${selectedUser}`
-    //             );
-    //             const msgs = await res.json(); // [{ sender, content }, ...]
-    //             setPrivateMessages(msgs);
-    //         } catch (err) {
-    //             console.error("Грешка при fetchPrivateMessages:", err);
-    //         }
-    //     };
-
-    //     fetchPrivateMessages();
-    // }, [selectedUser, currentUser]);
-
-    // ======================================================
     // 10) Изпращане на ново public съобщение
     // ======================================================
     const handleSendPublicMessage = (text) => {
@@ -174,6 +143,7 @@ function Chat() {
 
         const message = {
             sender_id: currentUser, // or the ID if it does not work
+            chat_id: currentChannel,
             content: text,
             timestamp: new Date()
         };
@@ -182,57 +152,30 @@ function Chat() {
             channelId: currentChannel,
             message
         });
-
-
-        // !!! CHECK HERE !!! 
-        // try {
-        //     const payload = { sender: currentUser, text };
-        //     const res = await fetch(
-        //         `http://localhost:4002/channels/${currentChannel}/messages`,
-        //         {
-        //             method: "POST",
-        //             headers: { "Content-Type": "application/json" },
-        //             body: JSON.stringify(payload),
-        //         }
-        //     );
-        //     if (!res.ok) {
-        //         console.error("Грешка при изпращане на public съобщение");
-        //         return;
-        //     }
-        //     // Очакваме бекендът да върне всички актуализирани съобщения
-        //     const updatedMsgs = await res.json();
-        //     setChannelMessages(updatedMsgs);
-        // } catch (err) {
-        //     console.error("Грешка при handleSendPublicMessage:", err);
-        // }
     };
-
-    // ======================================================
-    // 11) Изпращане на ново private съобщение
-    // ======================================================
-    // const handleSendPrivateMessage = (receiver, content) => {
-    //     if (!socketRef.current || !receiver || !content) return;
-
-    //     socketRef.current.emit("message", {
-    //         sender: currentUser,
-    //         receiver,
-    //         content,
-    //     });
-    //     setPrivateMessages((prev) => [...prev, { sender: currentUser, content }]);
-    // };
 
     // ======================================================
     // 12) Функции за смяна на канал/потребител
     // ======================================================
     const handleSelectChannel = (channelId) => {
         setCurrentChannel(channelId);
-        setSelectedUser("");
+        // setSelectedUser("");
     };
 
-    // const handleSelectUser = (username) => {
-    //     setSelectedUser(username);
-    //     setCurrentChannel("");
-    // };
+    const handleSelectUser = async (user) => {
+        setSelectedUser(user);
+
+        try {
+            const res = await fetch(
+                `http://localhost:4002/api/channels/private-channel/${currentUser._id}/${user._id}`, { method: 'POST' }
+            );
+
+            const channel = await res.json();
+            setCurrentChannel(channel._id);
+        } catch (err) {
+            console.error("Грешка при fetchPrivateMessages:", err);
+        }
+    };
 
     // ======================================================
     // 13) Ако няма currentUser (например localStorage е изчистен), navigate към /login
@@ -252,10 +195,10 @@ function Chat() {
                 channels={channels}
                 currentChannel={currentChannel}
                 onSelectChannel={handleSelectChannel}
-                //users={users}
+                users={users}
                 currentUser={currentUser}
-                //selectedUser={selectedUser}
-                //onSelectUser={handleSelectUser}
+                selectedUser={selectedUser}
+                onSelectUser={handleSelectUser}
             />
 
             {/* Main area */}
@@ -265,18 +208,20 @@ function Chat() {
                         <ChatWindow
                             channelId={currentChannel}
                             channelLabel={
-                                channels.find((ch) => ch.id === currentChannel)?.label || ""
+                                channels.find((ch) => ch._id === currentChannel)?.name || ""
                             }
                             messages={channelMessages}
                             onSendMessage={handleSendPublicMessage}
                             onOpenSettings={() => setIsChannelModalOpen(true)}
+                            users={users}
                         />
                         <ChannelModal
                             isOpen={isChannelModalOpen}
                             channelLabel={
-                                channels.find((ch) => ch.id === currentChannel)?.label || ""
+                                channels.find((ch) => ch._id === currentChannel)?.name || ""
                             }
-                            users={channelUsers}
+                            users={channels.find((ch) => ch._id === currentChannel)?.user_list}
+                            allUsers={users}
                             onClose={() => setIsChannelModalOpen(false)}
                         />
                     </>

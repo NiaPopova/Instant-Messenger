@@ -1,16 +1,17 @@
 import { Socket, Server} from 'socket.io';
 import {Message} from '../src/models/mesage';
 import { Channel } from './models/channel';
+import { IUser } from './models/user';
 
-const onlineUsersList = new Map<string, string>();
+const onlineUsersList = new Map<IUser, string>();
 
 export const socketSetUp = (io: Server) => {
     io.on('connection', (socket: Socket) => {
         console.log('User connected');
 
-        socket.on('log', (user: string) => {
+        socket.on('log', (user: IUser) => {
             onlineUsersList.set(user, socket.id);
-            console.log(`${user} logged in the application`);
+            console.log(`${user.name} logged in the application`);
         });
 
         socket.on('join-channel', ({ channelId }) => {

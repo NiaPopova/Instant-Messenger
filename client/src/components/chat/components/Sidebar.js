@@ -18,13 +18,13 @@ export default function Sidebar({
                 <ul className="channel-list">
                     {channels.map((ch) => (
                         <li
-                            key={ch.id}
-                            className={currentChannel === ch.id ? 'active' : ''}
+                            key={ch._id}
+                            className={currentChannel === ch._id ? 'active' : ''}
                             onClick={() => {
-                                onSelectChannel(ch.id);
+                                onSelectChannel(ch._id);
                             }}
                         >
-                            {ch.label}
+                            {ch.name}
                         </li>
                     ))}
                 </ul>
@@ -37,21 +37,21 @@ export default function Sidebar({
                 </div>
                 <ul className="channel-list">
                     {users
-                        .filter((u) => u !== currentUser)
-                        .map((username) => (
+                        .filter((u) => u.username !== currentUser.username)
+                        .map((user, i) => (
                             <li
-                                key={username}
-                                className={selectedUser === username ? 'active' : ''}
+                                key={i}
+                                className={selectedUser === user.username ? 'active' : ''}
                                 onClick={() => {
-                                    onSelectUser(username);
+                                    onSelectUser(user);
                                 }}
                             >
-                                {username}
+                                {user.name}
                             </li>
                         ))}
                 </ul>
                 <div style={{ marginTop: 'auto', color: '#aaa', fontSize: '12px' }}>
-                    Влязъл: <strong>{currentUser}</strong>
+                    Влязъл: <strong>{currentUser.name}</strong>
                 </div>
             </div>
         </div>

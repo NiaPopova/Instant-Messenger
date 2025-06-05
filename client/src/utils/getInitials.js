@@ -1,4 +1,6 @@
 // src/utils/getInitials.js
-export function getInitials(firstName, lastName) {
-    return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
+export function getInitials(fullName) {
+    const splitName = fullName.split(' ');
+    
+    return `${splitName?.[0][0] || ''}${splitName?.[1][0] || ''}`.toUpperCase();
 }
