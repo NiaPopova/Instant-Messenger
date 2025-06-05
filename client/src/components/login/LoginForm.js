@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import socket from '../../socket';
 
 function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -14,7 +15,7 @@ function LoginForm() {
     e.preventDefault();
     console.log(form);
     
-    const res = await fetch("http://localhost:4002/api/auth/login", {
+    const res = await fetch("http://localhost:3000/api/auth/login", { //here
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -23,7 +24,11 @@ function LoginForm() {
 
     if (res.ok) {
       localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/profile");
+
+      socket.auth = { userId: data.user._id };
+      socket.connect();
+
+      navigate("/chat");
     } else {
       setMessage(data.message);
     }
