@@ -9,6 +9,7 @@ import path from 'path';
 import messageRoutes from './routes/messages';
 import userRoutes from './routes/users';
 import authRoutes from './routes/auth';
+import channelRoute from './routes/channels';
 import { socketSetUp } from './socketio';
 
 dotenv.config();
@@ -18,11 +19,11 @@ dotenv.config();
 // —————————————————————————————————————————————————————————
 const PORT = parseInt(process.env.SERVER_PORT || '3000', 10);
 
-if (!process.env.DB_URL || !process.env.DB_NAME) {
+if (/*!process.env.DB_URL || !process.env.DB_NAME*/ !process.env.MONGO_URI) {
   console.error('❌  Missing DB_URL or DB_NAME in .env');
   process.exit(1);
 }
-const MONGO_URI = `${process.env.DB_URL}/${process.env.DB_NAME}`;
+const MONGO_URI = /*`${process.env.DB_URL}/${process.env.DB_NAME}`;*/ `${process.env.MONGO_URI}`;
 
 // If you want to limit CORS to certain origins, set CORS_ORIGIN="https://app.example.com,http://localhost:3000"
 const CORS_ORIGIN = process.env.CORS_ORIGIN
@@ -65,6 +66,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/channels', channelRoute);
 
 // Simple health-check endpoint
 app.get('/api/health', (_req: Request, res: Response) => {
