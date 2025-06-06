@@ -57,7 +57,6 @@ router.post('/private-channel/:firstUser/:secondUser', async (request: express.R
         //
         //    For the `name`, you could generate a default like "private-<firstUser>-<secondUser>"
         //    or allow the client to pass a custom naming via req.body. Here’s one approach:
-        console.log(request);
         
         const newChannel = new Channel({
             name: request?.body?.name,
