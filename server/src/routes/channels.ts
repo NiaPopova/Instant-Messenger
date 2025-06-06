@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 router.post('/private-channel/:firstUser/:secondUser', async (request: express.Request, response: express.Response) => {
     try {
         const { firstUser, secondUser } = request.params;
-
+        
         // 1) Try to find an existing channel:
         const existingChannel = await Channel.findOne({
             admin_list: { $all: [firstUser, secondUser] },
@@ -57,16 +57,17 @@ router.post('/private-channel/:firstUser/:secondUser', async (request: express.R
         //
         //    For the `name`, you could generate a default like "private-<firstUser>-<secondUser>"
         //    or allow the client to pass a custom naming via req.body. Here’s one approach:
-        const defaultName = `private-${firstUser}-${secondUser}`.slice(0, 50);
-
+        console.log(request);
+        
         const newChannel = new Channel({
-            name: request?.body?.name || defaultName,
+            name: request?.body?.name,
             admin_list: [firstUser, secondUser],
             user_list: [firstUser, secondUser],
             nickname_list: [],
-            message_list: []
+            message_list: [],
+            isPrivate: true
         });
-
+        
         await newChannel.save();
         return response.status(201).json(newChannel);
     } catch (err) {

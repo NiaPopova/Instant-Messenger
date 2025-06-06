@@ -11,6 +11,7 @@ export interface IChannel extends Document {
     user_list: string[];
     nickname_list: INickname[];
     message_list: string[];
+    isPrivate: boolean;
 }
 
 const NicknameSchema = new Schema<INickname>({
@@ -27,7 +28,8 @@ const ChannelSchema = new Schema<IChannel>({
         validate: [(val: string[]) => val.length >= 2 && val.length <= 5, 'Броят на потребителите трябва да е между 2 и 5.']
     },
     nickname_list: { type: [NicknameSchema], required: true },
-    message_list: [{ type: String, required: false }]
+    message_list: [{ type: String, required: false }],
+    isPrivate: { type: Boolean, required: false }
 });
 
 export const Channel = mongoose.model<IChannel>('Channel', ChannelSchema);

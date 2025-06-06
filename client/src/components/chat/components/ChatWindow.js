@@ -1,7 +1,6 @@
-// src/components/ChatWindow.js
 import React, { useState, useRef, useEffect } from 'react';
 import { getInitials } from '../../../utils/getInitials';
-//import { socket } from '../../../socket';
+import styles from './chatwindow.module.scss';
 
 export default function ChatWindow({
     channelLabel,
@@ -15,7 +14,6 @@ export default function ChatWindow({
     const messagesEndRef = useRef(null);
     const [searchString, setSearchString] = useState('');
 
-    // Скролиране надолу при всяка промяна на messages
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -35,7 +33,6 @@ export default function ChatWindow({
     };
 
     useEffect(() => {
-        // Don’t call onSearch immediately; wait `delay` ms after the last keystroke.
         const handler = setTimeout(() => {
             onSearch(searchString);
             console.log(searchString);
@@ -49,34 +46,34 @@ export default function ChatWindow({
     }, [searchString]);
 
     return (
-        <div className="chat">
-            <header className="chat-header">
-                <div className="chat-header-content" style={{ width: '100%' }}>
-                    <h2 className="channel-title">{channelLabel}</h2>
-                    <button className="settings-btn" onClick={onOpenSettings}>
-                        ⚙️ Настройки
+        <div className={styles.chat}>
+            <header className={styles['chat-header']}>
+                <div className={styles['chat-header-content']} style={{ width: '100%' }}>
+                    <h2 className={styles['channel-title']}>{channelLabel}</h2>
+                    <button className={styles['settings-btn']} onClick={onOpenSettings}>
+                        Настройки
                     </button>
                     <input type='text' placeholder='Търси в чата...' value={searchString}
                         onChange={(e) => setSearchString(e.target.value)}></input>
                 </div>
             </header>
 
-            <section className="chat-messages">
+            <section className={styles['chat-messages']}>
                 {messages.map((msg, idx) => {
                     const msgUser = users.find(u => u._id === msg.sender_id)
 
                     return (
-                        <div className="message" key={idx}>
-                            <div className="avatar">
+                        <div className={styles.message} key={idx}>
+                            <div className={styles.avatar} >
                                 {getInitials(msgUser.name)}
                             </div>
-                            <div className="content">
-                                <div className="name">
+                            <div className={styles.content} >
+                                <div className={styles.name}>
                                     {msgUser.name}{' '}
-                                    <span className="username">(@{msgUser.username})</span>
+                                    <span className={styles.username}>(@{msgUser.username})</span>
                                 </div>
-                                <div className="text">{msg.content}</div>
-                                <div className="time">🕒 {msg.timestamp}</div>
+                                <div className={styles.text}>{msg.content}</div>
+                                <div className={styles.time}>{msg.timestamp}</div>
                             </div>
                         </div>
                     )
@@ -85,16 +82,16 @@ export default function ChatWindow({
                 <div ref={messagesEndRef} />
             </section>
 
-            <div className="chat-input">
+            <div className={styles['chat-input']} >
                 <input
                     type="text"
-                    className="message-input"
+                    className={styles['message-input']}
                     placeholder="Напиши съобщение..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                 />
-                <button className="send-button" onClick={handleSend}>
+                <button className={styles['send-button']} onClick={handleSend}>
                     Изпрати
                 </button>
             </div>

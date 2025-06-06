@@ -1,5 +1,5 @@
-// src/components/Sidebar.js
 import { useNavigate } from 'react-router-dom';
+import styles from './sidebar.module.scss';
 
 export default function Sidebar({
     channels,
@@ -13,11 +13,11 @@ export default function Sidebar({
     const navigate = useNavigate();
 
     return (
-        <div className="sidebar">
+        <div className={styles.sidebar}>
             {/* Първа секция: Public channels */}
             <div style={{ marginBottom: '20px' }}>
-                <div className="logo">ChatApp</div>
-                <ul className="channel-list">
+                <div className={styles.logo}>ChatApp</div>
+                <ul className={styles['channel-list']}>
                     {channels.filter(ch => ch.user_list.length > 2).map((ch) => (
                         <li
                             key={ch._id}
@@ -32,12 +32,11 @@ export default function Sidebar({
                 </ul>
             </div>
 
-            {/* Втора секция: Private users */}
-            <div style={{ borderTop: '1px solid #444', paddingTop: '20px' }}>
-                <div style={{ color: '#ccc', fontSize: '14px', marginBottom: '8px' }}>
+            <div>
+                <div>
                     Потребители
                 </div>
-                <ul className="channel-list">
+                <ul className={styles['channel-list']}>
                     {users
                         .filter((u) => u.username !== currentUser.username)
                         .map((user, i) => (
@@ -52,7 +51,7 @@ export default function Sidebar({
                             </li>
                         ))}
                 </ul>
-                <div onClick={() => navigate('/profile')} style={{ marginTop: 'auto', color: '#aaa', fontSize: '12px' }}>
+                <div onClick={() => navigate('/profile')}>
                     Влязъл: <strong>{currentUser.name}</strong>
                 </div>
             </div>

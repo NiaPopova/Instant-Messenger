@@ -27,7 +27,7 @@ function App() {
             isAuthenticated() ? <Chat /> : <Navigate to="/login" replace />
           }
         />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={isAuthenticated() ? <Profile /> : <Navigate to="/login" replace />} />
 
         {/* Всички други пътища прехвърляме към /login */}
         <Route path="*" element={<Navigate to="/login" replace />} />

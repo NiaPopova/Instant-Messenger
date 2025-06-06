@@ -49,11 +49,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (request: express.Request, response: express.Response) => {
   const { email, password } = request.body;
-  console.log(email, password);
   
   try {
     const user = await User.findOne({ email });
-    console.log(user);
     
     if (!user) {
       response.status(401).json({ message: 'Invalid credentials (user not found)' });
