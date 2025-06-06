@@ -20,6 +20,7 @@ const Profile = () => {
       <p>Username: {user?.username || "-"}</p>
       <p>Email: {user?.email || "-"}</p>
       <button onClick={handleLogout}>Logout</button>
+      <button onClick={() => navigate("/chat")}>Chats</button>
     </div>
   );
 };

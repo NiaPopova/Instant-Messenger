@@ -162,6 +162,9 @@ function Chat() {
     };
 
     const handleSelectUser = async (user) => {
+        if (user._id === selectedUser._id)
+            return;
+
         setSelectedUser(user);
 
         try {

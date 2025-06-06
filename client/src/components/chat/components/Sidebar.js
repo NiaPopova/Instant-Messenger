@@ -1,5 +1,5 @@
 // src/components/Sidebar.js
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar({
     channels,
@@ -10,6 +10,8 @@ export default function Sidebar({
     selectedUser,
     onSelectUser,
 }) {
+    const navigate = useNavigate();
+
     return (
         <div className="sidebar">
             {/* Първа секция: Public channels */}
@@ -50,7 +52,7 @@ export default function Sidebar({
                             </li>
                         ))}
                 </ul>
-                <div style={{ marginTop: 'auto', color: '#aaa', fontSize: '12px' }}>
+                <div onClick={() => navigate('/profile')} style={{ marginTop: 'auto', color: '#aaa', fontSize: '12px' }}>
                     Влязъл: <strong>{currentUser.name}</strong>
                 </div>
             </div>
