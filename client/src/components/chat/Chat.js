@@ -24,6 +24,7 @@ function Chat() {
 
     const [channels, setChannels] = useState([]);
     const [currentChannel, setCurrentChannel] = useState("");
+    const [selectedChannel, setSelectedChannel] = useState(null);
     const [channelMessages, setChannelMessages] = useState([]);
     const [channelUsers, setChannelUsers] = useState([]);
     const [isChannelModalOpen, setIsChannelModalOpen] = useState(false);
@@ -104,6 +105,12 @@ function Chat() {
         fetchChannelData();
     }, [currentChannel]);
 
+    useEffect(() => {
+        const selectedChannel = channels.find((ch) => ch._id === currentChannel);
+
+        setSelectedChannel(selectedChannel);
+    }, [currentChannel]);
+
     const handleSendPublicMessage = (text) => {
         if (!text || !currentChannel) return;
 
@@ -143,6 +150,7 @@ function Chat() {
             );
 
             const channel = await res.json();
+            setChannels([...channels, channel])
             setCurrentChannel(channel._id);
         } catch (err) {
             console.error("Грешка при fetchPrivateMessages:", err);
@@ -174,8 +182,6 @@ function Chat() {
             console.error("Грешка при api/messages/search:", err);
         }
     };
-
-    const selectedChannel = channels.find((ch) => ch._id === currentChannel);
 
     return (
         <div className={styles['chat-container']}>
