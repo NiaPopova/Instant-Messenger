@@ -16,7 +16,7 @@ export default function Sidebar({
             <div style={{ marginBottom: '20px' }}>
                 <div className="logo">ChatApp</div>
                 <ul className="channel-list">
-                    {channels.map((ch) => (
+                    {channels.filter(ch => ch.user_list.length > 2).map((ch) => (
                         <li
                             key={ch._id}
                             className={currentChannel === ch._id ? 'active' : ''}

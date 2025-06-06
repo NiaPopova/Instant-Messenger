@@ -74,9 +74,8 @@ function Chat() {
         try {
             const res = await fetch("http://localhost:4002/api/channels");
             const channelsArr = await res.json(); // [{ id, label }, ...]
-            const publicChannels = channelsArr.filter(ch => ch.user_list.length > 2);
 
-            setChannels(publicChannels);
+            setChannels(channelsArr);
 
             // Ако няма избран канал, избираме първия
             if (!currentChannel && channelsArr.length > 0) {
@@ -185,9 +184,35 @@ function Chat() {
         return null; // Редиректът вече е извършен в useEffect
     }
 
+    const handleSearch = async (chatText) => {
+        try {
+            const res = await fetch(`http://localhost:4002/api/messages/search`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        searchQuery: chatText,
+                        channelId: currentChannel,
+                    })
+                }
+            );
+
+            const searchResults = await res.json();
+            setChannelMessages(searchResults);
+        } catch (err) {
+            console.error("Грешка при api/messages/search:", err);
+        }
+    };
+
+
     // ======================================================
     // 14) Ако имаме currentUser, показваме чат интерфейса
     // ======================================================
+
+    const selectedChannel = channels.find((ch) => ch._id === currentChannel);
+
     return (
         <div className="chat-page app" style={{ display: "flex" }}>
             {/* Sidebar: канали + потребители */}
@@ -208,20 +233,20 @@ function Chat() {
                         <ChatWindow
                             channelId={currentChannel}
                             channelLabel={
-                                channels.find((ch) => ch._id === currentChannel)?.name || ""
+                                selectedChannel?.name || ""
                             }
                             messages={channelMessages}
                             onSendMessage={handleSendPublicMessage}
                             onOpenSettings={() => setIsChannelModalOpen(true)}
                             users={users}
+                            onSearch={handleSearch}
                         />
                         <ChannelModal
                             isOpen={isChannelModalOpen}
                             channelLabel={
-                                channels.find((ch) => ch._id === currentChannel)?.name || ""
+                                selectedChannel?.name || ""
                             }
-                            users={channels.find((ch) => ch._id === currentChannel)?.user_list}
-                            allUsers={users}
+                            users={users.filter(user => selectedChannel?.user_list.includes(user._id))}
                             onClose={() => setIsChannelModalOpen(false)}
                         />
                     </>

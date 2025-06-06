@@ -4,15 +4,16 @@ import { getInitials } from '../../../utils/getInitials';
 //import { socket } from '../../../socket';
 
 export default function ChatWindow({
-    channelId,
     channelLabel,
     messages,
     onSendMessage,
     onOpenSettings,
-    users
+    users,
+    onSearch
 }) {
     const [inputValue, setInputValue] = useState('');
     const messagesEndRef = useRef(null);
+    const [searchString, setSearchString] = useState('');
 
     // Скролиране надолу при всяка промяна на messages
     useEffect(() => {
@@ -33,6 +34,20 @@ export default function ChatWindow({
         }
     };
 
+    useEffect(() => {
+        // Don’t call onSearch immediately; wait `delay` ms after the last keystroke.
+        const handler = setTimeout(() => {
+            onSearch(searchString);
+            console.log(searchString);
+            
+        }, 500);
+
+        // If `searchText` changes again before `delay` has passed, clear the previous timer.
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchString]);
+
     return (
         <div className="chat">
             <header className="chat-header">
@@ -41,6 +56,8 @@ export default function ChatWindow({
                     <button className="settings-btn" onClick={onOpenSettings}>
                         ⚙️ Настройки
                     </button>
+                    <input type='text' placeholder='Търси в чата...' value={searchString}
+                        onChange={(e) => setSearchString(e.target.value)}></input>
                 </div>
             </header>
 
