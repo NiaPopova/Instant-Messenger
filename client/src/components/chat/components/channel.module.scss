@@ -1,5 +1,3 @@
-/* channel.module.scss */
-
 .modal {
   position: fixed;
   top: 0;
@@ -50,12 +48,12 @@
     transition: background-color 0.2s ease, transform 0.1s ease;
 
     &:hover {
-      background-color: #0F5A85; /* darken(#146B98, 7%) approximate */
+      background-color: #0F5A85;
       transform: translateY(-1px);
     }
 
     &:active {
-      background-color: #0C4A6B; /* darken(#146B98, 12%) approximate */
+      background-color: #0C4A6B; 
       transform: translateY(0);
     }
   }
