@@ -150,8 +150,8 @@ function Chat() {
             );
 
             const channel = await res.json();
-            setChannels([...channels, channel])
             setCurrentChannel(channel._id);
+            setChannels([...channels, channel])
         } catch (err) {
             console.error("Грешка при fetchPrivateMessages:", err);
         }

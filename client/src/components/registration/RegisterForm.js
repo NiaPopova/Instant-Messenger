@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from './registerForm.module.scss';
 
 const RegisterForm = () => {
     const [form, setForm] = useState({
@@ -43,16 +44,18 @@ const RegisterForm = () => {
     };
 
     return (
-        <div className="form-box">
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                <input id="username" placeholder="Username" onChange={handleChange} required />
-                <input id="name" placeholder="Full Name" onChange={handleChange} required />
-                <input id="email" placeholder="Email" type="email" onChange={handleChange} required />
-                <input id="password" type="password" placeholder="Password" onChange={handleChange} required />
-                <button type="submit">Register</button>
-            </form>
-            <p>{message}</p>
+        <div className={styles['register-container']}> 
+            <div className={styles['form-box']}>
+                <h2>Register</h2>
+                <form onSubmit={handleSubmit}>
+                    <input id="username" placeholder="Username" onChange={handleChange} required />
+                    <input id="name" placeholder="Full Name" onChange={handleChange} required />
+                    <input id="email" placeholder="Email" type="email" onChange={handleChange} required />
+                    <input id="password" type="password" placeholder="Password" onChange={handleChange} required />
+                    <button type="submit">Register</button>
+                </form>
+                <p>{message}</p>
+            </div>
         </div>
     );
 };
