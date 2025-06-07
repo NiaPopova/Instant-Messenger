@@ -183,6 +183,17 @@ function Chat() {
         }
     };
 
+    const handleUpdateChannel = async (channel) => {
+        setCurrentChannel(channel._id);
+        setSelectedChannel(channel);
+
+        setChannels(channels.map(ch =>
+            ch._id === channel._id
+                ? channel
+                : ch
+        ));
+    };
+
     return (
         <div className={styles['chat-container']}>
             <div className={styles['chat-page app']} style={{ display: "flex", width: "100%", height: "100vh" }}>
@@ -217,6 +228,8 @@ function Chat() {
                                 channelLabel={
                                     selectedChannel?.name || ""
                                 }
+                                onUpdate={handleUpdateChannel}
+                                selectedChannel={selectedChannel}
                                 users={users.filter(user => selectedChannel?.user_list.includes(user._id))}
                                 onClose={() => setIsChannelModalOpen(false)}
                             />
