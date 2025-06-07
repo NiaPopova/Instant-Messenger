@@ -44,8 +44,8 @@ export const searchMessages = async (request: express.Request, response: express
 
     const filteredMessages = await Message.find(filter).exec();
 
-    /*return*/ response.status(200).json(filteredMessages);
+    return response.status(200).json(filteredMessages);
   } catch (err) {
-    /*return*/ response.status(500).json({ error: (err as Error).message });
+    return response.status(500).json({ error: (err as Error).message });
   }
 };

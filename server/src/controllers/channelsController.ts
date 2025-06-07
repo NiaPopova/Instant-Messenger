@@ -5,12 +5,6 @@ import { Channel } from "../models/channel";
 export const getAllChannels = async (request: express.Request, response: express.Response) => {
     try{
         const channels = await Channel.find();
-
-        if (!channels)
-        {
-            return response.status(404).json({ error: 'Channels not found' });
-        }
-
         response.status(200).json(channels);
     } catch (error) {
         response.status(500).json({ error: 'Error fetching channels' });
