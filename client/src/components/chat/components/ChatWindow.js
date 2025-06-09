@@ -72,7 +72,7 @@ export default function ChatWindow({
                                     {msgUser?.name}{' '}
                                     <span className={styles.username}>(@{msgUser?.username})</span>
                                 </div>
-                                {console.log(typeof msg.content)}
+
                                 <div className={styles.text}>{msg.content}</div>
                                 <div className={styles.time}>{msg.timestamp}</div>
                             </div>
