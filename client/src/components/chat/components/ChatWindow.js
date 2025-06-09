@@ -36,7 +36,7 @@ export default function ChatWindow({
         const handler = setTimeout(() => {
             onSearch(searchString);
             console.log(searchString);
-            
+
         }, 500);
 
         // If `searchText` changes again before `delay` has passed, clear the previous timer.
@@ -61,17 +61,18 @@ export default function ChatWindow({
             <section className={styles['chat-messages']}>
                 {messages.map((msg, idx) => {
                     const msgUser = users.find(u => u._id === msg.sender_id)
-
-                    return (
+                    
+                    return msgUser && (
                         <div className={styles.message} key={idx}>
                             <div className={styles.avatar} >
-                                {getInitials(msgUser.name)}
+                                {getInitials(msgUser?.name)}
                             </div>
                             <div className={styles.content} >
                                 <div className={styles.name}>
-                                    {msgUser.name}{' '}
-                                    <span className={styles.username}>(@{msgUser.username})</span>
+                                    {msgUser?.name}{' '}
+                                    <span className={styles.username}>(@{msgUser?.username})</span>
                                 </div>
+                                {console.log(typeof msg.content)}
                                 <div className={styles.text}>{msg.content}</div>
                                 <div className={styles.time}>{msg.timestamp}</div>
                             </div>
